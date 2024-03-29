@@ -2,7 +2,7 @@
 
 % get area and rms from each subject and conditions Data Example
 clear all
-maindir = uigetdir();  % "C:\Users\burgosp\OneDrive - Oregon Health & Science University\Documents\MATLAB\Neurocom_LOS_SOT_MCTdata"
+maindir = uigetdir();  % "/Users/harkerg/Library/CloudStorage/OneDrive-SharedLibraries-OregonHealth&ScienceUniversity"
 
 folders = dir(maindir); % folder of participants
 dirFlags = [folders.isdir];
@@ -17,17 +17,17 @@ varNames = {'subject','visit','condition','trial','range', 'range_ap', 'range_ml
 T = table('Size',sz,'VariableTypes',varTypes,'VariableNames',varNames);
 
 for i = 1:length(fo)
-    di= [maindir,'\',fo{i},'\ClinicalModule'];
+    di= [maindir,'/',fo{i},'/ClinicalModule'];
     display(fo{i});
     try
-    [a1,a2,a3] = myneurocom(di);
+    [a1,a2,a3] = myneurocom2(di);
     catch
         disp('not done')
         continue
     end
 
     
-%     h1 = readtable([maindir,'\',fo{i},'\SOT\hunova_SOT.csv']);
+%     h1 = readtable([maindir,'/',fo{i},'/SOT/hunova_SOT.csv']);
     rangel=find(strcmp(a2,'range')); %'range', 'range_ap', 'range_ml' ,'area_sw'
     ranapl=find(strcmp(a2,'range_ap'));
     ranmll=find(strcmp(a2,'range_ml'));
@@ -112,10 +112,10 @@ T3= groupsummary(T2,["subject","visit","condition"],"mean",["range", "range_ap",
 
 AVERAGE_RESULTS =T3(T3.condition=='1'|T3.condition=='2',:);
 
-writetable(T,'alltrials_graham.xlsx')
-writetable(T3,'allconditions_graham.xlsx')
+writetable(T,'alltrials_grahamCoG.xlsx')
+writetable(T3,'allconditions_grahamCoG.xlsx')
 
-writetable(AVERAGE_RESULTS,'conditions_1_2_graham.xlsx')
+writetable(AVERAGE_RESULTS,'conditions_1_2_grahamCoG.xlsx')
 
 %%
 % OE WITH c1
